@@ -1,23 +1,23 @@
-# ignore all dataset files
-data/*
-!data/.gitkeep
-!data/raw/.gitkeep
-!data/processed/.gitkeep
+# dataset files — kept on external drive, not in git
+data/
+*.cif
+*.json
+*.csv
+*.parquet
+
 # local Python environment, different on every machine, often large
 .venv/
 __pycache__/
 *.py[cod]
 
-# --- worth adding ---
-
-# Jupyter notebook checkpoints (auto-created next to your .ipynb files)
+# Jupyter notebook checkpoints
 .ipynb_checkpoints/
 
 # environment variables / secrets — never commit these
 .env
 .env.*
 
-# packaging / build artifacts (if you add setup.py or pyproject.toml later)
+# packaging / build artifacts
 *.egg-info/
 dist/
 build/
@@ -31,6 +31,15 @@ htmlcov/
 .DS_Store
 Thumbs.db
 
-# IDE folders (only if you don't want editor settings shared)
+# IDE folders
 .idea/
 .vscode/
+
+# MLflow tracking data (large, regenerated locally)
+mlruns/
+mlartifacts/
+
+# model artifacts
+*.pkl
+*.joblib
+*.onnx
