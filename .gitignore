@@ -1,0 +1,36 @@
+# ignore all dataset files
+data/*
+!data/.gitkeep
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+# local Python environment, different on every machine, often large
+.venv/
+__pycache__/
+*.py[cod]
+
+# --- worth adding ---
+
+# Jupyter notebook checkpoints (auto-created next to your .ipynb files)
+.ipynb_checkpoints/
+
+# environment variables / secrets — never commit these
+.env
+.env.*
+
+# packaging / build artifacts (if you add setup.py or pyproject.toml later)
+*.egg-info/
+dist/
+build/
+
+# pytest / coverage cache
+.pytest_cache/
+.coverage
+htmlcov/
+
+# OS junk files
+.DS_Store
+Thumbs.db
+
+# IDE folders (only if you don't want editor settings shared)
+.idea/
+.vscode/
