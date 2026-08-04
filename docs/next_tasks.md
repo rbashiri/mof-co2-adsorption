@@ -42,6 +42,16 @@
 - Handle the ~25% of rows with missing mofid (decide: drop vs keep as
   missing/False for chemistry columns)
 
+## 08.03.2026
+- Note: The remaining hMOF entries will be kept even though the mofid is null. No further action was taken on this decision.
+
+
+
+
+
+
+
+
 ## Reference
 See docs/PROJECT_OBJECTIVES.md for the full 4-phase project plan.
 This session's work = Phase 1 (structure-property data), now moving into

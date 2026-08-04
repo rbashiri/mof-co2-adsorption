@@ -47,7 +47,7 @@ This replicates and validates the structure-property relationships reported
 in Wilmer et al., *Energy Environ. Sci.*, 2012 (DOI: 10.1039/C2EE23201D).
 
 See [docs/PROJECT_OBJECTIVES.md](docs/PROJECT_OBJECTIVES.md) for the full multi-phase plan.
-========================================================================
+======================================================
 ## project Dataset
 
 **Source:** hMOF (hypothetical Metal-Organic Framework) database,
@@ -80,5 +80,99 @@ originating from Wilmer et al., *Energy Environ. Sci.*, 2012
 | `isotherms` | CO2 (and N2/CH4) adsorption uptake (mol/kg) at multiple pressures, 298 K |
 
 **Dataset size:** ~50,000 hMOF structures (JSON + paired CIF files)
+======================================================
+## CO2 Uptake Columns
 
-=============================================================================
+The dataset includes CO2 adsorption values measured at five different
+gas pressures, from the same simulated MOF structure — not five
+different properties.
+
+| Column | Meaning |
+|---|---|
+| `CO2_uptake_0.01bar_molkg` | CO2 adsorbed at very low pressure (0.01 bar) |
+| `CO2_uptake_0.05bar_molkg` | CO2 adsorbed at 0.05 bar |
+| `CO2_uptake_0.1bar_molkg` | CO2 adsorbed at 0.1 bar |
+| `CO2_uptake_0.5bar_molkg` | CO2 adsorbed at 0.5 bar |
+| `CO2_uptake_2.5bar_molkg` | CO2 adsorbed at 2.5 bar (highest pressure tested) |
+
+**Why pressure matters:** at low pressure, only MOFs with strong CO2-binding sites (e.g. open metal sites, polar functional groups) adsorb meaningfully weaker materials adsorb almost nothing. At high pressure, CO2 is pushed into any available pore space, so uptake becomes driven more by physical capacity (surface area, pore volume) than by binding strength.
+
+This mirrors why Wilmer et al. (2012) evaluated four separate industrial
+cases at different pressures: flue gas capture occurs at low CO2 partial
+pressure (~0.1 bar), while natural gas purification occurs at higher
+pressure — so the "best" MOF depends on which pressure regime matters
+for the target application.
+
+**Implication for feature importance:** the most influential structural or
+chemical property can differ depending on which pressure column is analyzed.
+For example, void fraction may matter more at 2.5 bar (physical space
+dominates), while chemistry-based features (e.g. fluorine content, once
+added via RDKit) may matter more at 0.01 bar (binding strength dominates).
+Correlation and feature-importance analysis should therefore be checked
+across all five pressure columns, not just one.
+
+======================================================
+## Data Cleaning Summary
+
+- Loaded the dataset and inspected its structure, including shape, columns, and sample records.
+- Standardized column names by removing extra whitespace, converting them to lowercase, and replacing spaces with underscores.
+- Identified and summarized missing values by column.
+- Reviewed rows with missing mofid values to assess data quality.
+- Checked for duplicate records and counted them.
+- Investigated rows with zero surface area and removed those with both zero surface area and missing mofid.
+- Rechecked the remaining missing values after filtering.
+- Explored potential outliers using descriptive statistics, boxplots, and the IQR method for key numeric features.
+
+Note: The remaining hMOF entries will be kept even though the mofid is null. No further action was taken on this decision.
+
+======================================================
+// ...existing code...
+
+======================================================
+## Feature and Target Selection
+
+The project uses structural properties to predict CO₂ uptake.
+The variables are assigned the following roles:
+
+| Role | Variables | Purpose |
+|------|-----------|---------|
+| **Features (`X`)** | `lcd`, `pld`, `void_fraction`, `surface_area_m2g` | Describe the pore structure and physical properties of each MOF |
+| **Targets (`y`)** | Five CO₂-uptake columns | Measure CO₂ adsorption at different pressures |
+| **Identifiers** | `filename`, `mofid` | Identify and trace individual records |
+
+> `filename` and `mofid` are excluded from model features — they are
+> identifiers, not physical MOF properties.  
+> Missing `mofid` values do not affect the current analysis because all
+> required feature and target values are complete.
+
+---
+
+### Recommended Modeling Approach: Separate Regression by Pressure
+
+A separate regression model will be trained for each CO₂-pressure target:
+
+| Model | Target |
+|-------|--------|
+| Model 1 | `CO2_uptake_0.01bar_molkg` |
+| Model 2 | `CO2_uptake_0.05bar_molkg` |
+| Model 3 | `CO2_uptake_0.1bar_molkg` |
+| Model 4 | `CO2_uptake_0.5bar_molkg` |
+| Model 5 | `CO2_uptake_2.5bar_molkg` |
+
+This approach makes it possible to compare how the influence of `lcd`,
+`pld`, `void_fraction`, and `surface_area_m2g` changes across pressure
+regimes:
+
+- At **low pressure** (0.01 – 0.1 bar), CO₂ adsorption is more sensitive
+  to pore accessibility and chemical interactions — relevant to **flue gas
+  capture** (~0.1 bar CO₂ partial pressure).
+- At **high pressure** (0.5 – 2.5 bar), physical capacity dominates —
+  void fraction and surface area become more influential — relevant to
+  **natural gas purification**.
+
+> ⚠️ These relationships will be tested using **correlation analysis** and
+> **model-based feature importance** rather than assumed in advance.
+> Feature importance should be checked across all five pressure targets,
+> not just one, consistent with the approach in Wilmer et al. (2012).
+
+======================================================
