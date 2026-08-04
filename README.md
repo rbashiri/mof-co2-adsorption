@@ -1,16 +1,15 @@
+## Project Structure
+
+```text
 myproject/
-├── .venv/                     # virtual environment (NOT committed)
-│   ├── bin/
-│   ├── include/
-│   ├── lib/
-│   ├── lib64/
-│   ├── share/
-│   └── pyvenv.cfg
+├── .venv/                     # Virtual environment (not committed)
 ├── configs/
 │   └── config.yaml
 ├── data/
 │   ├── processed/
 │   └── raw/
+├── docs/
+│   └── PROJECT_OBJECTIVES.md
 ├── notebook/
 │   └── check_data.ipynb
 ├── src/
@@ -20,14 +19,14 @@ myproject/
 │   └── train.py
 ├── tests/
 │   ├── test_interface.py
-│   ├── test_preprocess.py
-│   └── test_model.py         
+│   ├── test_model.py
+│   └── test_preprocess.py
 ├── .gitignore
 ├── Dockerfile
 ├── README.md
 └── requirements.txt
-
-=============================================================================
+```
+====================================================
 ## Project Objectives
 ### Overview
 This project predicts and analyzes CO2 adsorption behavior in Metal-Organic
