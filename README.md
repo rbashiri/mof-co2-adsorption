@@ -175,4 +175,71 @@ regimes:
 > Feature importance should be checked across all five pressure targets,
 > not just one, consistent with the approach in Wilmer et al. (2012).
 
+
+======================================================
+## Exploratory Data Analysis (EDA)
+
+EDA is performed before modeling to understand the structure of the data,
+confirm expected physical relationships, and identify any patterns that
+should inform modeling decisions.
+
+### EDA Priorities
+
+| Priority | Analysis | Purpose |
+|----------|----------|---------|
+| 1 | **Target distributions** | Compare the range, skewness, and zeros of CO₂ uptake at each pressure |
+| 2 | **Pressure consistency** | Confirm uptake generally increases as pressure increases |
+| 3 | **Pearson and Spearman correlations** | Measure linear and monotonic feature–uptake relationships |
+| 4 | **Scatter / hexbin plots** | Identify nonlinear relationships and feature interactions |
+| 5 | **Feature-to-feature correlations** | Detect strongly related predictors such as `lcd` and `pld` |
+| 6 | **Outlier sensitivity** | Check whether flagged MOFs change the observed relationships |
+
+---
+
+### EDA Order
+
+1. Examine the five CO₂ target distributions
+2. Check whether adsorption increases with pressure for each MOF
+3. Calculate Pearson and Spearman correlations
+4. Visualize the strongest feature–target relationships
+5. Compare results with and without flagged outliers
+6. Begin regression modeling and feature importance
+
+---
+
+### Why This Order
+
+**Step 1** establishes whether the targets are normally distributed,
+heavily skewed, or contain zero-uptake MOFs — this affects which
+correlation method and model type is appropriate.
+
+**Step 2** checks a fundamental physical expectation: CO₂ uptake should
+increase as pressure increases for the same MOF. Rows that violate this
+are candidates for data quality review.
+
+**Step 3** uses two correlation methods intentionally:
+- **Pearson** measures linear relationships — appropriate if features and
+  targets scale proportionally.
+- **Spearman** measures monotonic relationships — more robust when
+  distributions are skewed or contain outliers, which is expected here
+  given the IQR results.
+
+**Step 4** visualizes the strongest correlations found in Step 3 to
+confirm whether relationships are truly linear or follow a nonlinear
+pattern — this informs whether a linear model or tree-based model is
+more suitable.
+
+**Step 5** repeats key correlations after removing the 619 low
+`void_fraction` outliers and 688 large `lcd` outliers to confirm that
+the observed relationships are not driven by extreme values.
+
+**Step 6** begins only after EDA is complete, so that model choice,
+feature scaling decisions, and interpretation of feature importance are
+all grounded in observed data patterns rather than assumed in advance.
+
+> This sequence is consistent with the analytical approach used in
+> Wilmer et al. (2012), where structural descriptors were evaluated
+> across multiple pressure regimes before drawing conclusions about
+> which features drive CO₂ adsorption.
+
 ======================================================

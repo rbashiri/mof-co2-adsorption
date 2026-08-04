@@ -44,6 +44,23 @@
 
 ## 08.03.2026
 - Note: The remaining hMOF entries will be kept even though the mofid is null. No further action was taken on this decision.
+## August 4 — MOF Project Progress
+
+### Completed
+
+* Completed the data-cleaning stage.
+* Removed all records with `surface_area_m2g == 0`.
+* Retained records with missing `mofid` when their structural and adsorption data were valid.
+* Identified and interpreted potential outliers using boxplots and the numerical IQR method.
+* Decided to retain the outliers because they may represent physically plausible MOF structures.
+* Identified the four features and five CO₂-uptake targets.
+
+### Next Step — August 5
+
+Continue the EDA to understand how MOF properties relate to CO₂ adsorption at different pressures.
+
+Start with **Step 1A: create and interpret the numerical distribution summary for the five CO₂-uptake targets**, including the mean, median, standard deviation, range, skewness, and zero-uptake count.
+
 
 
 
