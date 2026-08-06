@@ -124,8 +124,8 @@ across all five pressure columns, not just one.
 
 Note: The remaining hMOF entries will be kept even though the mofid is null. No further action was taken on this decision.
 
-======================================================
-// ...existing code...
+
+
 
 ======================================================
 ## Feature and Target Selection
@@ -187,22 +187,18 @@ should inform modeling decisions.
 | Priority | Analysis | Purpose |
 |----------|----------|---------|
 | 1 | **Target distributions** | Compare the range, skewness, and zeros of CO₂ uptake at each pressure |
-| 2 | **Pressure consistency** | Confirm uptake generally increases as pressure increases |
-| 3 | **Pearson and Spearman correlations** | Measure linear and monotonic feature–uptake relationships |
-| 4 | **Scatter / hexbin plots** | Identify nonlinear relationships and feature interactions |
-| 5 | **Feature-to-feature correlations** | Detect strongly related predictors such as `lcd` and `pld` |
-| 6 | **Outlier sensitivity** | Check whether flagged MOFs change the observed relationships |
-
----
+| 2 | **Pearson and Spearman correlations** | Measure linear and monotonic feature–uptake relationships |
+| 3 | **Scatter / hexbin plots** | Identify nonlinear relationships and feature interactions |
+| 4 | **Feature-to-feature correlations** | Detect strongly related predictors such as `lcd` and `pld` |
+| 5 | **Outlier sensitivity** | Check whether flagged MOFs change the observed relationships |
 
 ### EDA Order
 
-1. Examine the five CO₂ target distributions
-2. Check whether adsorption increases with pressure for each MOF
-3. Calculate Pearson and Spearman correlations
-4. Visualize the strongest feature–target relationships
-5. Compare results with and without flagged outliers
-6. Begin regression modeling and feature importance
+1. Examine the five CO₂ target distributions :**`Done**
+2. Calculate Pearson and Spearman correlations
+3. Visualize the strongest feature–target relationships
+4. Compare results with and without flagged outliers
+5. Begin regression modeling and feature importance
 
 ---
 
@@ -212,27 +208,23 @@ should inform modeling decisions.
 heavily skewed, or contain zero-uptake MOFs — this affects which
 correlation method and model type is appropriate.
 
-**Step 2** checks a fundamental physical expectation: CO₂ uptake should
-increase as pressure increases for the same MOF. Rows that violate this
-are candidates for data quality review.
-
-**Step 3** uses two correlation methods intentionally:
+**Step 2** uses two correlation methods intentionally:
 - **Pearson** measures linear relationships — appropriate if features and
   targets scale proportionally.
 - **Spearman** measures monotonic relationships — more robust when
   distributions are skewed or contain outliers, which is expected here
   given the IQR results.
 
-**Step 4** visualizes the strongest correlations found in Step 3 to
+**Step 3** visualizes the strongest correlations found in Step 3 to
 confirm whether relationships are truly linear or follow a nonlinear
 pattern — this informs whether a linear model or tree-based model is
 more suitable.
 
-**Step 5** repeats key correlations after removing the 619 low
+**Step 4** repeats key correlations after removing the 619 low
 `void_fraction` outliers and 688 large `lcd` outliers to confirm that
 the observed relationships are not driven by extreme values.
 
-**Step 6** begins only after EDA is complete, so that model choice,
+**Step 5** begins only after EDA is complete, so that model choice,
 feature scaling decisions, and interpretation of feature importance are
 all grounded in observed data patterns rather than assumed in advance.
 
