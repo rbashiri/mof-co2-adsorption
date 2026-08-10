@@ -59,7 +59,13 @@
 
 Continue the EDA to understand how MOF properties relate to CO₂ adsorption at different pressures.
 
-Start with **Step 1A: create and interpret the numerical distribution summary for the five CO₂-uptake targets**, including the mean, median, standard deviation, range, skewness, and zero-uptake count.
+
+# ask 4 is complete.
+
+- Calculated all six feature-to-feature correlations.
+- Identified strong relationships among the predictors.
+- Created and interpreted the scatter matrix.
+- Recognized possible multicollinearity between lcd and pld.
 
 
 
