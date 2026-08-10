@@ -67,6 +67,13 @@ Continue the EDA to understand how MOF properties relate to CO₂ adsorption at 
 - Created and interpreted the scatter matrix.
 - Recognized possible multicollinearity between lcd and pld.
 
+# Task 5 is complete. 
+
+- Identified outliers using the IQR method.
+- Compared correlations with and without flagged outliers.
+- Found only 0.00–0.01 changes.
+- Decided to retain the flagged MOFs.
+
 
 
 

@@ -194,7 +194,7 @@ should inform modeling decisions.
 
 ### EDA Order
 
-1. Examine the five CO₂ target distributions :**`Done**
+1. Examine the five CO₂ target distributions 
 2. Calculate Pearson and Spearman correlations
 3. Visualize the strongest feature–target relationships
 4. Compare results with and without flagged outliers
