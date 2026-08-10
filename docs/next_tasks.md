@@ -60,7 +60,7 @@
 Continue the EDA to understand how MOF properties relate to CO₂ adsorption at different pressures.
 
 
-# ask 4 is complete.
+# Task 4 is complete.
 
 - Calculated all six feature-to-feature correlations.
 - Identified strong relationships among the predictors.
