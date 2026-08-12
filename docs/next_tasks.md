@@ -88,3 +88,7 @@ This session's work = Phase 1 (structure-property data), now moving into
 cleaning/EDA before Phase 2 (chemistry features).
 
 For repeat JSON-copy operations in WSL, see docs/json_copy_runbook.md.
+
+### Possible Future Classification Task
+
+This project currently treats CO₂ uptake as a continuous target and evaluates regression models using MAE, RMSE, and R². In a future extension, the problem could be reformulated as classification by defining a scientifically meaningful threshold for low- and high-performing MOFs. Classification models could then be evaluated using precision, recall, F1 score, and ROC-AUC. An arbitrary threshold will not be used because it would discard useful uptake information and change the current research question.
