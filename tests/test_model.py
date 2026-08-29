@@ -25,7 +25,7 @@ from mof_models import (
     evaluate_regression,
 )
 
-ipytest.autoconfig()
+
 
 
 @pytest.fixture
