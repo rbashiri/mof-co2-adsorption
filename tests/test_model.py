@@ -6,6 +6,7 @@
 
 import numpy as np
 import ipytest
+import pandas as pd
 import pytest
 
 from sklearn.datasets import make_regression
@@ -13,6 +14,7 @@ from sklearn.dummy import DummyRegressor
 from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 
 # Absolute imports from the reusable module being tested.
@@ -22,7 +24,10 @@ from mof_models import (
     build_linear_model,
     build_random_forest_model,
     build_ridge_model,
+    evaluate_target_columns,
     evaluate_regression,
+    split_target_data,
+    train_and_evaluate_random_forest,
 )
 
 
@@ -151,6 +156,78 @@ def test_gradient_boosting_grid_search_fits_small_grid(regression_data):
         "min_samples_split": 2,
         "n_estimators": 10,
     }
+
+
+def test_split_target_data_returns_reproducible_60_20_20_splits():
+    dataframe = pd.DataFrame({
+        "feature": np.arange(30),
+        "target": np.arange(30) * 2,
+    })
+
+    first_split = split_target_data(dataframe, ["feature"], "target")
+    second_split = split_target_data(dataframe, ["feature"], "target")
+
+    assert [len(values) for values in first_split] == [18, 6, 6, 18, 6, 6]
+    for first_values, second_values in zip(first_split, second_split):
+        if hasattr(first_values, "equals"):
+            assert first_values.equals(second_values)
+        else:
+            np.testing.assert_array_equal(first_values, second_values)
+
+
+def test_train_and_evaluate_random_forest_returns_all_split_metrics(regression_data):
+    X, y = regression_data
+    X_train, X_temp, y_train, y_temp = train_test_split(
+        X, y, test_size=0.4, random_state=12345
+    )
+    X_valid, X_test, y_valid, y_test = train_test_split(
+        X_temp, y_temp, test_size=0.5, random_state=12345
+    )
+    rf_params = {
+        "n_estimators": 10,
+        "max_depth": 5,
+        "min_samples_split": 3,
+        "min_samples_leaf": 2,
+        "random_state": 12345,
+        "n_jobs": 1,
+    }
+
+    result = train_and_evaluate_random_forest(
+        X_train, X_valid, X_test, y_train, y_valid, y_test, rf_params
+    )
+
+    assert set(result["metrics"]) == {"train", "valid", "test"}
+    assert set(result["predictions"]) == {"train", "valid", "test"}
+    for metrics in result["metrics"].values():
+        assert set(metrics) == {"mae", "rmse", "r2"}
+        assert all(np.isfinite(value) for value in metrics.values())
+
+
+def test_evaluate_target_columns_returns_one_result_per_target(regression_data):
+    X, y = regression_data
+    dataframe = pd.DataFrame(X, columns=["a", "b", "c", "d"])
+    dataframe["target_a"] = y
+    dataframe["target_b"] = y + 1
+    rf_params = {
+        "n_estimators": 10,
+        "max_depth": 5,
+        "min_samples_split": 3,
+        "min_samples_leaf": 2,
+        "random_state": 12345,
+        "n_jobs": 1,
+    }
+
+    results, summary = evaluate_target_columns(
+        dataframe,
+        ["a", "b", "c", "d"],
+        ["target_a", "target_b"],
+        rf_params,
+    )
+
+    assert set(results) == {"target_a", "target_b"}
+    assert len(summary) == 2
+    assert "train_valid_r2_gap" in summary
+    assert "valid_test_r2_gap" in summary
 
 
 ipytest.run("-q")

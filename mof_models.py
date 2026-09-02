@@ -4,10 +4,11 @@ from sklearn.dummy import DummyRegressor
 from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor
 from sklearn.linear_model import LinearRegression, Ridge
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-from sklearn.model_selection import GridSearchCV, KFold
+from sklearn.model_selection import GridSearchCV, KFold, train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 import numpy as np
+import pandas as pd
 
 
 def build_dummy_model():
@@ -81,3 +82,77 @@ def evaluate_regression(y_true, predictions):
     r2 = r2_score(y_true, predictions)
     
     return {"mae": mae, "rmse": rmse, "r2": r2}
+
+
+def split_target_data(dataframe, feature_columns, target_column, seed=12345):
+    """Return reproducible 60/20/20 splits for one target column."""
+    selected_features = dataframe[feature_columns].copy()
+    selected_target = dataframe[target_column].copy()
+
+    X_train, X_temp, y_train, y_temp = train_test_split(
+        selected_features,
+        selected_target,
+        test_size=0.4,
+        shuffle=True,
+        random_state=seed,
+    )
+    X_valid, X_test, y_valid, y_test = train_test_split(
+        X_temp,
+        y_temp,
+        test_size=0.5,
+        shuffle=True,
+        random_state=seed,
+    )
+    return X_train, X_valid, X_test, y_train, y_valid, y_test
+
+
+def train_and_evaluate_random_forest(
+    X_train, X_valid, X_test, y_train, y_valid, y_test, rf_params
+):
+    """Fit one Random Forest and return metrics and predictions for all splits."""
+    model = RandomForestRegressor(**rf_params)
+    model.fit(X_train, y_train)
+
+    predictions = {
+        "train": model.predict(X_train),
+        "valid": model.predict(X_valid),
+        "test": model.predict(X_test),
+    }
+    actual_values = {
+        "train": y_train,
+        "valid": y_valid,
+        "test": y_test,
+    }
+    metrics = {
+        split_name: evaluate_regression(actual_values[split_name], predictions[split_name])
+        for split_name in actual_values
+    }
+
+    return {
+        "model": model,
+        "metrics": metrics,
+        "predictions": predictions,
+    }
+
+
+def evaluate_target_columns(
+    dataframe, feature_columns, target_columns, rf_params, seed=12345
+):
+    """Evaluate fixed-parameter Random Forest models across target columns."""
+    results = {}
+    summary_rows = []
+
+    for target_column in target_columns:
+        splits = split_target_data(dataframe, feature_columns, target_column, seed=seed)
+        evaluation = train_and_evaluate_random_forest(*splits, rf_params)
+        results[target_column] = evaluation
+
+        row = {"target": target_column}
+        for split_name, split_metrics in evaluation["metrics"].items():
+            for metric_name, metric_value in split_metrics.items():
+                row[f"{split_name}_{metric_name}"] = metric_value
+        row["train_valid_r2_gap"] = row["train_r2"] - row["valid_r2"]
+        row["valid_test_r2_gap"] = row["valid_r2"] - row["test_r2"]
+        summary_rows.append(row)
+
+    return results, pd.DataFrame(summary_rows)
