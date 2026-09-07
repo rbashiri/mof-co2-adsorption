@@ -78,7 +78,14 @@ originating from Wilmer et al., *Energy Environ. Sci.*, 2012
 | `elements` | Constituent atoms in the framework |
 | `isotherms` | CO2 (and N2/CH4) adsorption uptake (mol/kg) at multiple pressures, 298 K |
 
-**Dataset size:** ~50,000 hMOF structures (JSON + paired CIF files)
+**Dataset size:** 
+
+The CO₂-specific hMOF dataset used for the baseline analysis contains:
+
+- **32,768 JSON files** containing structural descriptors and CO₂ adsorption data
+- **32,767 CIF files** containing crystallographic structures
+- **65,535 JSON/CIF files in total**
+
 ======================================================
 ## CO2 Uptake Columns
 
