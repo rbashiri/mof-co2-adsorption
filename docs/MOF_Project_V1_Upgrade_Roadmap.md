@@ -3,7 +3,7 @@
 **Target Completion: December 31, 2026**
 
 ## Roadmap
-
+```
 | Phase | Upgrade | Main Goal | Deadline |
 |---|---|---|---|
 | 1 | Baseline + Explainability | RF all pressures + SHAP | Sep 19 |
@@ -13,7 +13,7 @@
 | 5 | Transformer / Embeddings | Pretrained representations | Dec 5 |
 | 6 | LLM + RAG | Literature + model explanations | Dec 19 |
 | 7 | Final System | Integration + documentation | Dec 31 |
-
+```
 ## Progress
 
 - [ ] Phase 1 — Baseline + Explainability

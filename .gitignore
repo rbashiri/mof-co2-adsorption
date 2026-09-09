@@ -42,4 +42,4 @@ mlartifacts/
 # model artifacts
 *.pkl
 *.joblib
-*.onnx
+*.onnxresults/models/
