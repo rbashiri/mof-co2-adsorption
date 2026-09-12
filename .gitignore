@@ -39,7 +39,11 @@ Thumbs.db
 mlruns/
 mlartifacts/
 
-# model artifacts
+# model artifacts and large results
 *.pkl
 *.joblib
-*.onnxresults/models/
+*.onnx
+*.skops
+results/models/
+results/
+
