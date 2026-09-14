@@ -66,7 +66,7 @@ LCD + PLD + Void Fraction + Surface Area
 
 ---
 
-### Phase 2 — Chemistry
+### Phase 2 — Chemistry/RDKit: metal identity/properties + linker functional groups + composition + aromaticity + linker descriptors.
 
 ```text
 MOF Chemical Information
@@ -86,7 +86,7 @@ Geometric Descriptors
 
 ---
 
-### Phase 3 — CIF / Pore Structure
+### Phase 3 — MOF structural chemistry/CIF: coordination environment + open metal sites + additional pore descriptors.
 
 ```text
 CIF Structure
