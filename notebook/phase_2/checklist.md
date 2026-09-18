@@ -48,24 +48,70 @@ Before chemistry extraction, validate and freeze the Phase 2 analysis dataset.
 
 > **Important:** Repeated MOFID strings should not be removed automatically. First determine whether they correspond to distinct MOF records with different structural properties.
 
-### 2B — RDKit and MOFID Preparation
+## Phase 2B — RDKit and MOFID Preparation
+### RDKit Fundamentals
 
-* [x] Learn essential SMILES notation
-* [x] Learn basic RDKit molecular objects
+* [x] Learn essential RDKit concepts
 
-  * atoms and element symbols
-  * bonds and bond types
-  * formal charges
-  * aromatic atoms/bonds
-  * implicit vs explicit atoms
-* [ ] Inspect representative complete MOFID strings
-* [ ] Parse MOFID chemical components
-* [ ] Determine how disconnected fragments are represented
+  * [x] Atoms and element symbols
+  * [x] Bonds and bond types
+  * [x] Formal charges
+  * [x] Aromatic atoms and bonds
+  * [x] Implicit vs. explicit atoms
+
+### MOFID Inspection and Parsing
+* [x] Inspect representative complete MOFID strings
+* [x] Parse MOFID chemical components
+  * [x] Separate chemical representation from `MOFid-v1...` metadata
+### Disconnected Fragment Representation
+* [x] Determine how disconnected fragments are represented
+  * [x] `.` separates disconnected components
+  * [x] Fragment position does **not** reliably indicate chemical role
+  * [x] Observed 1–14 fragments per MOF
+
+### RDKit Parsing Assessment
+* [x] Test RDKit parsing across the complete chemistry subset
+  * [x] 25,952 MOFIDs tested
+  * [x] 12,940 complete representations parsed successfully
+  * [x] 13,012 failed standard RDKit parsing
+### Investigation of Unparseable Representations
+
+* [x] Investigate unparseable representations
+
+  * [x] 12,284 of 13,012 failures contain `[Zn][O]([Zn])([Zn])[Zn]`
+  * [x] Only 63 failed records carry the `ERROR` label
+  * [x] Complete-MOF parsing failure does not necessarily mean the organic linker is invalid
+
+### Fragmentation Analysis
+
+* [x] Perform fragmentation analysis
+
+  * [x] Split all chemical representations at `.`
+  * [x] Count fragments per MOF
+  * [x] Examine fragment positions 1–14
+  * [x] Confirm that metals and organic components occur at different fragment positions
+
+### Organic Linker and Metal-Component Separation 
+
 * [ ] Separate organic linker(s) from metal-containing components
-* [ ] Test RDKit parsing on representative MOFIDs
-* [ ] Test RDKit parsing across the complete chemistry subset
-* [ ] Quantify invalid/unparseable chemical representations
-* [ ] Document parsing rules and exclusions
+
+  * [ ] Identify metal-containing fragments
+  * [ ] Identify remaining non-metal fragments
+  * [ ] Distinguish candidate linkers from small/other components such as `N#N` and `N=N`
+  * [ ] Define linker-selection rules
+
+### Linker Extraction Validation
+
+* [ ] Validate linker extraction
+
+  * [ ] Test rules on representative MOFIDs
+  * [ ] Apply rules across all 25,952 MOFs
+  * [ ] Quantify MOFs with successful, ambiguous, and failed linker extraction
+
+### Documentation
+
+* [ ] Document final parsing rules and exclusions
+
 
 ### 2C — Metal-Node Descriptors
 
