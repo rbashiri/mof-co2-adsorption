@@ -27,6 +27,8 @@ exact_fragment_blacklist = {
     "[Zn][Zn]",  # Zinc dimer
     "[Cu][Cu]",  # Copper dimer
     "[O]",       # Isolated neutral oxygen atom
+    "[Zn+3][Zn+5]",  # Charged zinc fragment found during validation
+    
 }
 def extract_linkers(chemical):
     """Extract candidate linkers from the chemical portion of a MOFID.
