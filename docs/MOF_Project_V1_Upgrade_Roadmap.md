@@ -100,6 +100,18 @@ Geometry + Chemistry + CIF-Derived Features
               ML Model
 ```
 
+### 3— Metal-Node Descriptors
+
+* [ ] Extract metal identity (Zn, Cu, Co, Ni, etc.)
+* [ ] Determine number and type of metals
+* [ ] Add selected metal atomic properties
+
+  * Atomic number
+  * Atomic mass
+  * Other scientifically justified properties if needed
+* [ ] Investigate metal oxidation state / valency
+
+  * Include only when it can be assigned reliably
 **Question:** Can additional descriptors extracted directly from MOF structures improve adsorption prediction?
 
 ---

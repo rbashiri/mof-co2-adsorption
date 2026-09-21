@@ -93,42 +93,30 @@ Before chemistry extraction, validate and freeze the Phase 2 analysis dataset.
 
 ### Organic Linker and Metal-Component Separation 
 
-* [ ] Separate organic linker(s) from metal-containing components
+* [x] Separate organic linker(s) from metal-containing components
 
-  * [ ] Identify metal-containing fragments
-  * [ ] Identify remaining non-metal fragments
-  * [ ] Distinguish candidate linkers from small/other components such as `N#N` and `N=N`
-  * [ ] Define linker-selection rules
+  * [x] Identify metal-containing fragments
+  * [x] Identify remaining non-metal fragments
+  * [x] Distinguish candidate linkers from small/other components such as `N#N` and `N=N`
+  * [x] Define linker-selection rules
 
 ### Linker Extraction Validation
 
-* [ ] Validate linker extraction
+* [x] Validate linker extraction
 
-  * [ ] Test rules on representative MOFIDs
-  * [ ] Apply rules across all 25,952 MOFs
-  * [ ] Quantify MOFs with successful, ambiguous, and failed linker extraction
+  * [x] Test rules on representative MOFIDs
+  * [x] Apply rules across all 25,952 MOFs
+  * [x] Quantify MOFs with successful, ambiguous, and failed linker extraction
 
 ### Documentation
 
 * [ ] Document final parsing rules and exclusions
 
 
-### 2C — Metal-Node Descriptors
-
-* [ ] Extract metal identity (Zn, Cu, Co, Ni, etc.)
-* [ ] Determine number and type of metals
-* [ ] Add selected metal atomic properties
-
-  * Atomic number
-  * Atomic mass
-  * Other scientifically justified properties if needed
-* [ ] Investigate metal oxidation state / valency
-
-  * Include only when it can be assigned reliably
 
 > **Note:** Open Metal Sites (OMS) will be investigated in Phase 3 using CIF/MOF-specific structural information rather than inferred from MOFID alone.
 
-### 2D — Linker Descriptors
+### 2c — Linker Descriptors
 
 #### Elemental Composition
 
@@ -160,7 +148,7 @@ Before chemistry extraction, validate and freeze the Phase 2 analysis dataset.
 * [ ] Rotatable-bond count
 * [ ] Define a scientifically meaningful linker-length descriptor before calculating linker length
 
-### 2E — Descriptor Validation
+### 2D — Descriptor Validation
 
 * [ ] Inspect descriptor distributions
 * [ ] Check missing and invalid descriptor values
@@ -168,10 +156,10 @@ Before chemistry extraction, validate and freeze the Phase 2 analysis dataset.
 * [ ] Examine correlations and redundant descriptors
 * [ ] Finalize chemistry feature set for modeling
 
-### 2F — Controlled ML Comparison
+### 2E — Controlled ML Comparison
 
-* [ ] Use the same 27,706-MOF chemistry subset for both models
-* [ ] Rebuild Geometry-Only Random Forest baseline
+* [x] Use the same 27,706-MOF chemistry subset for both models
+* [x] Rebuild Geometry-Only Random Forest baseline
 
   * LCD
   * PLD
