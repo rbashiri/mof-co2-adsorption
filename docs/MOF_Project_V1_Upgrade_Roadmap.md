@@ -84,6 +84,27 @@ Geometric Descriptors
 
 **Question:** How much predictive information does MOF chemistry add beyond pore geometry?
 
+
+### Phase 2 Conclusion — Linker Chemistry and CO₂ Uptake
+
+Phase 2 added RDKit linker descriptors to the MOF dataset and tested whether they improve CO₂ uptake prediction beyond four pore-geometry features.
+
+The starting chemistry subset contained 27,706 rows with non-null MOFIDs. After removing two unusable MOFID categories, 25,952 rows remained. Linker extraction excluded 23 rows without a valid organic linker, leaving 25,929 rows for descriptor calculation. The modeling dataset contained 25,928 rows and 222 columns; the reason for the one-row difference between these last two stages should be recorded in the data-preparation notebook.
+
+Each MOF has up to 13 extracted linker positions. RDKit supplied 15 numeric descriptors per position, producing 195 linker descriptor columns. Empty linker positions have missing descriptor values.
+
+A controlled XGBoost comparison used the same 25,928-row dataset and the same train, validation, and test split for both models:
+
+| Model | Features |
+|---|---|
+| Geometry only | LCD, PLD, void fraction, and surface area |
+| Geometry + linkers | The same four features plus 195 RDKit descriptors |
+
+Separate models predicted CO₂ uptake at 0.01, 0.05, 0.1, 0.5, and 2.5 bar. Adding linker descriptors improved test MAE at every pressure, with reductions of 18.6%–36.0%; test R² also increased at every pressure. SHAP analysis has identified important individual structural and linker columns across the five pressures. Grouped linker-property interpretation remains to be completed.
+
+**Conclusion:** Adding linker descriptors improved test MAE at every pressure, with reductions of 18.6%–36.0%, and increased test R² at every pressure. Therefore, the linker representation adds predictive information beyond the four pore-geometry features on this row-based split. SHAP analysis identified important individual structural and linker columns, but grouped linker-property interpretation remains to be completed.
+
+Phase 2 uses XGBoost; no further Random Forest work is planned. Metal-descriptor testing is deferred to Phase 3, and comparison with published literature will follow that testing.
 ---
 
 ### Phase 3 — MOF structural chemistry/CIF: coordination environment + open metal sites + additional pore descriptors.

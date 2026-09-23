@@ -121,12 +121,19 @@ Before chemistry extraction, validate and freeze the Phase 2 analysis dataset.
 #### Elemental Composition
 
 * [ ] Count C, N, O, F, S and other relevant elements
-* [ ] Calculate heteroatom-related features
-
+* [x] Calculate heteroatom-related features
+* [] Summarize elemental counts across the linkers in each MOF.
 #### Functional Groups
 
-* [ ] Identify relevant linker functional groups
-* [ ] Investigate groups such as –NH₂, –OH, fluorinated groups, carboxylates and other polar functionalities
+* [ ]  Define and document the substructure rules used to identify functional groups.
+* [ ] Identify relevant groups, including amines, hydroxyls, fluorinated groups, and carboxylate-related groups.
+* [ ] Check representative linker structures manually, especially groups altered by metal–linker disconnection.
+* [ ] Summarize group counts or presence across each MOF’s linker.
+
+#### Modeling check
+
+* [ ] Compare the current geometry + 15-descriptor XGBoost model with a model that also includes these extended linker features, using identical rows and splits.
+* [ ] Report whether the new features add predictive value beyond the descriptors already tested.
 
 #### Physicochemical Descriptors
 
